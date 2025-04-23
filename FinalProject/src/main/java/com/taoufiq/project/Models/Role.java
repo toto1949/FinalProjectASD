@@ -1,6 +1,5 @@
 package com.taoufiq.project.Models;
 import java.util.List;
-import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -76,12 +75,5 @@ public class Role {
                 && this.name.equals(otherRole.name));
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.roleId, this.name);
-//        int result = roleId != null ? roleId.hashCode() : 0;
-//        result = 31 * result + (name != null ? name.hashCode() : 0);
-//        return result;
-    }
 
 }
