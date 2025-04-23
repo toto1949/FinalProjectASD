@@ -11,15 +11,13 @@ public class RegisterRequest {
     private String password;
     private List<String> roleNames;
 
-    // Getter for roleNames to avoid null
     public List<String> getRoleNames() {
         if (roleNames == null) {
-            roleNames = new LinkedList<>(); // Initialize as empty set if null
+            roleNames = new LinkedList<>();
         }
         return roleNames;
     }
 
-    // Setter for roleNames (no changes needed, unless you want additional logic)
     public void setRoleNames(List<String> roleNames) {
         this.roleNames = roleNames;
     }
