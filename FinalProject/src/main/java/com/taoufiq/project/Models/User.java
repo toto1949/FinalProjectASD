@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +15,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -28,30 +29,19 @@ public class User implements UserDetails {
     private String lastName;
     private String username;
     private String password;
-
     private String email;
-
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
         name = "users_roles",
         joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "userId")},
         inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "roleId")}
     )
     private List<Role> roles;    
-
-    public User() {
-        this(null, null);
-    }
-
-    public User(String username, String password) {
-        this(null, null, null, null, username, password, null,
-                true, true, true, true);
-    }
 
     public User(Integer userId, String firstName, String middleName, String lastName,
                 String username, String password, String email,
@@ -99,7 +89,6 @@ public class User implements UserDetails {
     }
 
     public String getFullName() {
-//        return (this.middleName == null || this.middleName.isBlank()) ? String.format("%s %s", this.firstName, this.lastName) : String.format("%s %s %s", this.firstName, this.middleName, this.lastName);
         return (this.middleName == null) ? String.format("%s %s", this.firstName, this.lastName) : String.format("%s %s %s", this.firstName, this.middleName, this.lastName);
     }
 
@@ -142,7 +131,6 @@ public class User implements UserDetails {
         .toArray(String[]::new);
         return AuthorityUtils.createAuthorityList(userRoles);
     }
-    
 
     public String getPassword() {
         return password;

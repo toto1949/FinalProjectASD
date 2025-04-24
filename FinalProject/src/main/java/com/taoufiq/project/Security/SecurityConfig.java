@@ -33,15 +33,18 @@ public class SecurityConfig {
         return http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
-
-                .requestMatchers(HttpMethod.GET, "/adsweb/api/v1/patients/{id}").hasAnyRole("ADMIN", "USER")
-
-                .requestMatchers(HttpMethod.GET, "/adsweb/api/v1/patients").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/adsweb/api/v1/patients").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/adsweb/api/v1/patients/patient/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/adsweb/api/v1/patients/patient/**").hasRole("ADMIN")
-
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/swagger-resources/**",
+                    "/webjars/**"
+                ).permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.POST, "/api/patients/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/patients/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -74,6 +74,4 @@ public class Role {
         return (this.roleId.equals(otherRole.roleId)
                 && this.name.equals(otherRole.name));
     }
-
-
 }

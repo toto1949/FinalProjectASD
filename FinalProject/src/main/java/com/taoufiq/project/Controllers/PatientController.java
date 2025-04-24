@@ -3,6 +3,7 @@ package com.taoufiq.project.Controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,8 +28,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PatientController {
     private final PatientService patientService;
-    private final PatientMapper patientMapper = PatientMapper.INSTANCE;
-
+    @Autowired
+    private PatientMapper patientMapper;
+    
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public List<PatientDTO> getAll() {

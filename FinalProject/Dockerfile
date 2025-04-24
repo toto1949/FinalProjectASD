@@ -1,29 +1,24 @@
-# Use the official OpenJDK image as the base
-FROM openjdk:17-jdk-slim AS build
+# Use JDK 17 as the base image
+FROM eclipse-temurin:17-jdk-alpine
 
 # Set the working directory
 WORKDIR /app
 
-# Copy Maven wrapper and permissions
-COPY mvnw .
-COPY .mvn .mvn
-RUN chmod +x mvnw
+# Copy the Maven wrapper and pom.xml
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
-# Copy the pom.xml and source code
-COPY pom.xml .
-COPY src /app/src
+# Download dependencies
+RUN ./mvnw dependency:go-offline
 
-# Build the Spring Boot application
-RUN ./mvnw clean package -DskipTests
+# Copy the source code
+COPY src ./src
 
-# Create the final image
-FROM openjdk:17-jdk-slim
+# Build the application
+RUN ./mvnw package -DskipTests
 
-# Set the working directory
-WORKDIR /app
+# Expose the port the app runs on
+EXPOSE 8085
 
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar /app/app.jar
-
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "target/FinalProject-0.0.1-SNAPSHOT.jar"]
