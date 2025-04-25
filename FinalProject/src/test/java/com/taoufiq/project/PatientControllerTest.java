@@ -1,8 +1,5 @@
 package com.taoufiq.project;
 
-
-
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +29,7 @@ import com.taoufiq.project.Services.PatientService;
 import com.taoufiq.project.Services.UserService;
 
 @WebMvcTest(controllers = PatientController.class)
-@Import({SecurityConfig.class, JwtAuthenticationFilter.class})
+@Import({ SecurityConfig.class, JwtAuthenticationFilter.class })
 public class PatientControllerTest {
 
     @Autowired
@@ -40,17 +37,17 @@ public class PatientControllerTest {
 
     @MockBean
     private PatientService patientService;
-    
+
     // Mock required security-related beans
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
-    
+
     @MockBean
     private UserService userService;
-    
+
     @MockBean
     private JWTManagementUtilityService jwtManagementUtilityService;
-    
+
     @MockBean
     private PatientMapper patientMapper;
 
@@ -178,7 +175,7 @@ public class PatientControllerTest {
 
     // @Test
     // void testNoAuthentication() throws Exception {
-    //     mockMvc.perform(MockMvcRequestBuilders.get("/adsweb/api/v1/patients"))
-    //             .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    // mockMvc.perform(MockMvcRequestBuilders.get("/adsweb/api/v1/patients"))
+    // .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     // }
 }
